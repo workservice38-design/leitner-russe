@@ -218,6 +218,42 @@ input[type=text] {
 input[type=text]:focus { border-color: var(--accent-2); }
 input.small { font-size: 16px; text-align: left; }
 
+/* Saisie avec coloration en direct (lettre par lettre) */
+.write-field {
+  position: relative;
+  border-radius: 14px;
+  background: var(--bg-card-2);
+  border: 2px solid var(--border);
+}
+.write-field:focus-within { border-color: var(--accent-2); }
+.write-field input {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  color: transparent;
+  caret-color: var(--accent-2);
+}
+.write-field input:focus { border: none; }
+/* Placeholder visible tant que rien n'est tapé. */
+.write-field input::placeholder { color: var(--text-dim); }
+.write-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  font-size: 22px;
+  line-height: 1.4;
+  white-space: pre;
+  overflow: hidden;
+  pointer-events: none;
+}
+.write-overlay .ok { color: var(--ok); }
+.write-overlay .bad { color: var(--ko); }
+
 .feedback {
   border-radius: 14px; padding: 14px; margin: 12px 0; text-align: center;
 }
