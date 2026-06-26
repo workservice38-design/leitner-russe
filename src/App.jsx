@@ -44,6 +44,32 @@ const matchesAnswer = (input, answer) => {
 
 const daysUntil = (ts, now) => Math.max(1, Math.ceil((ts - now) / DAY))
 
+// Comparaison d'un caractère (insensible à la casse, ё = е).
+const charEq = (a, b) =>
+  a.toLowerCase().replace('ё', 'е') === b.toLowerCase().replace('ё', 'е')
+
+// Statut de chaque caractère tapé ('ok' | 'bad') pour la coloration en direct.
+// On choisit la variante de réponse (séparée par « / ») la mieux amorcée.
+const charStatuses = (input, answer) => {
+  const variants = answer.split('/').map((v) => v.trim()).filter(Boolean)
+  let best = variants[0] || ''
+  let bestScore = -1
+  for (const v of variants) {
+    let score = 0
+    for (let i = 0; i < input.length && i < v.length; i++) {
+      if (charEq(input[i], v[i])) score++
+      else break
+    }
+    if (score > bestScore) {
+      bestScore = score
+      best = v
+    }
+  }
+  return [...input].map((ch, i) =>
+    i < best.length && charEq(ch, best[i]) ? 'ok' : 'bad'
+  )
+}
+
 /* ---------- Audio (Web Speech API) ---------- */
 
 let VOICES = []
@@ -574,17 +600,29 @@ function Review({ session, setSession, cards, gradeCard, onEnd }) {
 
           {status === 'idle' && (
             <>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                lang="ru"
-                autoCapitalize="off"
-                autoCorrect="off"
-                placeholder="Tape ta réponse…"
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && input.trim() && validate()}
-              />
+              <div className="write-field">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  lang="ru"
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="Tape ta réponse…"
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && input.trim() && validate()}
+                />
+                {/* Calque coloré : vert = lettre correcte, rouge = erreur. */}
+                <div className="write-overlay" aria-hidden="true">
+                  {charStatuses(input, card.a).map((st, i) => (
+                    <span key={i} className={st}>
+                      {input[i]}
+                    </span>
+                  ))}
+                </div>
+              </div>
               <div className="spacer" />
               <button
                 className="btn-primary btn-block"
