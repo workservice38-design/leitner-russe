@@ -143,6 +143,38 @@ export const DECKS = [
       { q: '100', a: 'Сто', p: 'sto' },
     ],
   },
+  {
+    id: 'couleurs',
+    name: 'Couleurs',
+    cards: [
+      { q: 'Rouge', a: 'Красный', p: 'krasnyï' },
+      { q: 'Bleu (foncé)', a: 'Синий', p: 'siniï' },
+      { q: 'Bleu clair', a: 'Голубой', p: 'galouboï' },
+      { q: 'Vert', a: 'Зелёный', p: 'zilioniy' },
+      { q: 'Jaune', a: 'Жёлтый', p: 'joltyï' },
+      { q: 'Orange', a: 'Оранжевый', p: 'aranjévyï' },
+      { q: 'Noir', a: 'Чёрный', p: 'tchornyï' },
+      { q: 'Blanc', a: 'Белый', p: 'biélyï' },
+      { q: 'Gris', a: 'Серый', p: 'sséryï' },
+      { q: 'Rose', a: 'Розовый', p: 'rozavyï' },
+      { q: 'Violet', a: 'Фиолетовый', p: 'fialiétavyï' },
+      { q: 'Marron', a: 'Коричневый', p: 'karitchnévyï' },
+    ],
+  },
+  {
+    id: 'orientation',
+    name: 'Orientation (points cardinaux)',
+    cards: [
+      { q: 'Nord', a: 'Север', p: 'siéviér' },
+      { q: 'Sud', a: 'Юг', p: 'youg' },
+      { q: 'Est', a: 'Восток', p: 'vastok' },
+      { q: 'Ouest', a: 'Запад', p: 'zapad' },
+      { q: 'Nord-Est', a: 'Северо-восток', p: 'siéviéra-vastok' },
+      { q: 'Nord-Ouest', a: 'Северо-запад', p: 'siéviéra-zapad' },
+      { q: 'Sud-Est', a: 'Юго-восток', p: 'yougo-vastok' },
+      { q: 'Sud-Ouest', a: 'Юго-запад', p: 'yougo-zapad' },
+    ],
+  },
 ];
 
 // Configuration des 5 boîtes de Leitner.
