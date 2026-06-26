@@ -33,7 +33,8 @@ https://workservice38-design.github.io/leitner-russe/
     semaine · Boîte 4 : tous les 15 jours · Boîte 5 : chaque mois.
 - **Paquets russes préchargés**, importables individuellement :
   alphabet cyrillique (33 lettres), formules de politesse (20), jours de la
-  semaine (7), mois (12), chiffres 0-20 (21), dizaines 30-100 (8).
+  semaine (7), mois (12), chiffres 0-20 (21), dizaines 30-100 (8),
+  couleurs (12), orientation / points cardinaux (8).
 - **Cartes personnalisées** (question / réponse / phonétique).
 - **Deux modes de révision** :
   - **Flip** : carte à retourner, puis « ✗ Raté » / « ✓ Su ».
