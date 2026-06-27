@@ -233,8 +233,9 @@ export default function App() {
 
   /* ----- Session de révision ----- */
 
-  const startSession = (mode) => {
-    const ids = shuffle(dueCards.map((c) => c.id))
+  // pool = cartes à réviser ; par défaut les cartes dues du jour.
+  const startSession = (mode, pool = dueCards) => {
+    const ids = shuffle(pool.map((c) => c.id))
     if (!ids.length) {
       showToast('Aucune carte à réviser pour le moment')
       return
@@ -242,6 +243,10 @@ export default function App() {
     setSession({ mode, ids, pos: 0 })
     setView('review')
   }
+
+  // Révision ciblée d'un seul paquet (toutes ses cartes).
+  const startDeckSession = (deckId, mode) =>
+    startSession(mode, cards.filter((c) => c.deckId === deckId))
 
   const endSession = () => {
     setSession(null)
@@ -277,7 +282,12 @@ export default function App() {
       )}
 
       {view === 'decks' && (
-        <Decks cards={cards} onImport={importDeck} back={() => setView('home')} />
+        <Decks
+          cards={cards}
+          onImport={importDeck}
+          onStudy={startDeckSession}
+          back={() => setView('home')}
+        />
       )}
 
       {view === 'all' && (
@@ -689,7 +699,7 @@ function Review({ session, setSession, cards, gradeCard, onEnd }) {
 
 /* ---------- Paquets ---------- */
 
-function Decks({ cards, onImport, back }) {
+function Decks({ cards, onImport, onStudy, back }) {
   return (
     <>
       <div className="topbar">
@@ -700,8 +710,8 @@ function Decks({ cards, onImport, back }) {
         <div style={{ width: 60 }} />
       </div>
       <p className="muted" style={{ marginTop: 0 }}>
-        Importe les paquets que tu veux apprendre. Les cartes déjà présentes ne
-        sont pas dupliquées.
+        Importe les paquets que tu veux apprendre, puis révise-les un par un.
+        Les cartes déjà présentes ne sont pas dupliquées.
       </p>
 
       {DECKS.map((deck) => {
@@ -725,6 +735,24 @@ function Decks({ cards, onImport, back }) {
                 {allIn ? '✓ Importé' : 'Importer'}
               </button>
             </div>
+
+            {/* Révision ciblée de ce paquet (visible dès qu'il est importé). */}
+            {imported > 0 && (
+              <div className="row" style={{ marginTop: 12 }}>
+                <button
+                  className="btn-ghost btn-sm"
+                  onClick={() => onStudy(deck.id, 'flip')}
+                >
+                  👁 Réviser ce paquet
+                </button>
+                <button
+                  className="btn-ghost btn-sm"
+                  onClick={() => onStudy(deck.id, 'write')}
+                >
+                  ✏️ Écrire
+                </button>
+              </div>
+            )}
           </div>
         )
       })}
